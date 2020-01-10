@@ -1,0 +1,35 @@
+{
+  "extends": [
+    "airbnb-base"
+  ],
+  "env": {
+    "es6": true
+  },
+  "parser": "babel-eslint",
+  "rules": {
+    "no-await-in-loop": "warn",
+    "lines-between-class-members": "off",
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "no-plusplus": [
+      "warn",
+      { "allowForLoopAfterthoughts": true }
+    ],
+    "no-nested-ternary": "off",
+    "indent": ["error", "tab"],
+    "no-unused-vars": ["warn"],
+    "no-tabs": ["off"],
+    "no-return-await": ["off"],
+    "no-var": ["error"],
+    "linebreak-style": 0,
+    "no-cond-assign": "off",
+    "arrow-parens": ["error", "as-needed", { "requireForBlockBody": true }],
+    "no-underscore-dangle": "off",
+    "max-len": [
+      "error",
+      130
+    ]
+  }
+}
