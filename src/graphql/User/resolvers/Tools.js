@@ -26,5 +26,8 @@ export const getDeviceQueryByInfos = (infos) => {
 };
 
 export const hasRecords = res => Boolean(res.records.length);
-export const generateToken = (userId, deviceId) => ({ success: true, token: jwt.sign({ userId, deviceId }, process.env.JWT_SECRET) });
+export const generateToken = (userId, deviceId, roles = []) => ({
+	success: true,
+	token: jwt.sign({ userId, deviceId, roles }, process.env.JWT_SECRET),
+});
 export const genericError = { success: false, message: 'An error occured, please try again later' };

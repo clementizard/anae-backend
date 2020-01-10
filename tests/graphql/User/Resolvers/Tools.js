@@ -35,9 +35,61 @@ export const mutateInit = async (mutate, variables) => {
 		`,
 		variables,
 	});
-	if (result.errors || !result.data.Init.success) return {};
+	if (!result || result.errors || result.data.Init === null || !result.data.Init.success) return {};
 	const { token } = result.data.Init;
 	return jwt.verify(token, process.env.JWT_SECRET);
+};
+
+export const mutateRegister = async (mutate, variables) => {
+	const result = await mutate({
+		mutation: gql`
+        mutation Register(
+            $email: String!
+            $password: String!
+            $firstname: String
+            $lastname: String
+        ) {
+            Register(
+                email: $email
+                password: $password
+                firstname: $firstname
+                lastname: $lastname
+            ) {
+                success
+                message
+                token
+            }
+        }
+		`,
+		variables,
+	});
+	if (!result || result.errors || result.data.Register === null || !result.data.Register.success) return {};
+	const { token } = result.data.Register;
+	return jwt.verify(token, process.env.JWT_SECRET);
+};
+
+export const mutateLogin = async (mutate, variables) => {
+	const result = await mutate({
+		mutation: gql`
+        mutation Login(
+            $email: String!
+            $password: String!
+        ) {
+            Login(
+                email: $email
+                password: $password
+            ) {
+                success
+                message
+                token
+            }
+        }
+		`,
+		variables,
+	});
+	if (!result || result.errors || result.data.Login === null || !result.data.Login.success) return {};
+	const { token } = result.data.Login;
+	return token;
 };
 
 export const cleanTest = async (clean) => {

@@ -13,16 +13,10 @@ import {
 	mutateInit,
 } from '../Tools';
 
-// Init Apollo Server
-test.before(async (t) => {
-	const server = new ApolloServer({ schema });
-	const { mutate, query } = createTestClient(server);
-	t.context.mutate = mutate;
-	t.context.query = query;
-});
-
 test('Init', async (t) => {
-	const { mutate } = t.context;
+	// Init Apollo Server
+	const server = new ApolloServer({ schema });
+	const { mutate } = createTestClient(server);
 
 	// Create a new user
 	const firstIp = `${Variables.connection.ipv4}`;
@@ -30,14 +24,14 @@ test('Init', async (t) => {
 		userId: user1Id,
 		deviceId: user1Device1Id,
 	} = await mutateInit(mutate, { ...Variables.device });
-	if (!user1Id) t.fail();
+	if (!user1Id) t.fail('Create a new user');
 
 	// Check if user has been created
 	const {
 		userId: userIdByDevice,
 		deviceId: userByDeviceId,
 	} = await mutateInit(mutate, { deviceId: user1Device1Id });
-	if (!userIdByDevice) t.fail();
+	if (!userIdByDevice) t.fail('Check if user has been created');
 	t.is(user1Id, userIdByDevice);
 	t.is(user1Device1Id, userByDeviceId);
 
@@ -49,7 +43,7 @@ test('Init', async (t) => {
 		userId: userIdByDeviceChangedIp,
 		deviceId: userByDeviceIdChangedIp,
 	} = await mutateInit(mutate, { deviceId: user1Device1Id });
-	if (!userIdByDeviceChangedIp) t.fail();
+	if (!userIdByDeviceChangedIp) t.fail('Link another IP to user');
 	t.is(user1Id, userIdByDeviceChangedIp);
 	t.is(user1Device1Id, userByDeviceIdChangedIp);
 
@@ -58,7 +52,7 @@ test('Init', async (t) => {
 
 	// Link another device to user
 	const { userId: userIdByConnection, deviceId: user1device2Id } = await mutateInit(mutate, { ...Variables.device });
-	if (!userIdByConnection) t.fail();
+	if (!userIdByConnection) t.fail('Link another device to user');
 	t.is(user1Id, userIdByConnection);
 
 	Variables.changeDevice();
@@ -67,14 +61,14 @@ test('Init', async (t) => {
 
 	// Create another user
 	const { userId: user2Id, deviceId: user2Device1Id } = await mutateInit(mutate, { ...Variables.device });
-	if (!user2Id) t.fail();
+	if (!user2Id) t.fail('Create another user');
 
 	// Check user existence after cleaning his cache
 	const {
 		userId: user2IdByConnection,
 		deviceId: user2Device1IdByConnection,
 	} = await mutateInit(mutate, { ...Variables.device });
-	if (!user2Device1IdByConnection) t.fail();
+	if (!user2Device1IdByConnection) t.fail('Check user existence after cleaning his cache');
 	t.is.skip(user2Device1Id, user2Device1IdByConnection);
 
 	Variables.setIp(firstIp);
@@ -83,7 +77,7 @@ test('Init', async (t) => {
 	const {
 		userId: user2IdByExistingConnection,
 	} = await mutateInit(mutate, { deviceId: user2Device1Id });
-	if (!user2IdByConnection) t.fail();
+	if (!user2IdByConnection) t.fail('Check user link to alreading existing ip');
 	t.is(user2Id, user2IdByExistingConnection);
 
 	await cleanTest({

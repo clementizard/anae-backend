@@ -10,9 +10,8 @@ import {
 } from './Tools';
 import Variables from '../../../../tests/graphql/User/Resolvers/Init/variables';
 
+// Called during first load
 export default async (obj, params, ctx, resInf) => {
-	// Called during first load
-
 	// If user created, create links to Device / Connection
 	const {
 		deviceId,
@@ -70,6 +69,9 @@ export default async (obj, params, ctx, resInf) => {
 			if (!hasRecords(connectionResult)) return genericError;
 			return generateToken(userId, deviceId);
 		}
+		// GIVEN DEVICE MAY EXIST, RELATED TO A REGISTERED USER.
+		// Todo: Link this device to an unregistered user with this connection.
+		// Until then, create a new device.
 		console.log('Given device does not exist, ignoring');
 	}
 	// Check for existing connection

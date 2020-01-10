@@ -1,45 +1,23 @@
 import argon2 from 'argon2';
-import jwt from 'jsonwebtoken';
 
 import { session } from '../../../neo4j/config';
-import { findUserByEmailQuery } from './Tools';
+import { hasRecords, getFormattedResult, generateToken } from './Tools';
+
+const credentialError = { success: false, message: 'Incorrect credentials' };
 
 export default async (obj, params, ctx, resInf) => {
-	try {
-		const { email, password } = params;
-		const result = await session.run(findUserByEmailQuery, { email });
-		if (result.records
-			&& result.records.length
-			&& result.records[0]._fields
-			&& result.records[0]._fields.length
-			&& result.records[0]._fields[0]
-			&& result.records[0]._fields[0].start) {
-			const user = result.records[0]._fields[0].start.properties;
+	const { deviceId, userId: existingId } = ctx;
+	if (!existingId || !deviceId) return null;
+	const { email, password } = params;
+	const result = await session.run(`
+		MATCH (u:User {email: "${email}"})
+		RETURN u.id AS userId, u.password as userPassword, u.roles AS roles
+	`);
+	if (hasRecords(result)) {
+		const { userId, userPassword, roles } = getFormattedResult(result);
 
-			// we use argon2 to compare the hash in the database (mock.js) to the password the user provides
-			if (await argon2.verify(user.password, password)) {
-				// Create the JWT for the user with secret
-				// inside the token we encrypt some user data
-				// then we send the token to the user
-				const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
-				return ({
-					success: true,
-					token,
-				});
-			}
-			// return error to user to let them know the password is incorrect
-			return ({
-				success: false,
-				message: 'Incorrect credentials',
-			});
-		}
-		// return error to user to let them know the account there are using does not exists
-		return ({
-			success: false,
-			message: 'Incorrect credentials',
-			// message: `Could not find account: ${email}`,
-		});
-	} catch (e) {
-		return e.message;
+		if (await argon2.verify(userPassword, password)) return generateToken(userId, deviceId, roles);
+		return credentialError;
 	}
+	return credentialError;
 };

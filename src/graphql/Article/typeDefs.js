@@ -39,7 +39,7 @@ export default `
 			image: String!
 			description: String
 			sections: [SectionInput]
-		): Article
+		): Article @hasRole(roles:[ADMIN])
 	}
 
 `;

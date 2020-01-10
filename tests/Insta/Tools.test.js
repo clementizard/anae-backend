@@ -14,7 +14,7 @@ const removeElem = (data, elem) => {
 	return finalData;
 };
 
-test.skip('Format account from data', (t) => {
+test('Format account from data', (t) => {
 	const formattedData = removeElem(formatAccount(InstaData), 'lastUpdate');
 
 	t.deepEqual(formattedData, {
@@ -28,7 +28,7 @@ test.skip('Format account from data', (t) => {
 	});
 });
 
-test.skip('Format account snapshot from data', (t) => {
+test('Format account snapshot from data', (t) => {
 	const formattedData = removeElem(formatAccountSnapshot(InstaData, 42), 'date');
 
 	t.deepEqual(formattedData, {
@@ -43,7 +43,7 @@ test.skip('Format account snapshot from data', (t) => {
 	});
 });
 
-test.skip('Format account posts from data', (t) => {
+test('Format account posts from data', (t) => {
 	const formattedData = formatPosts(InstaData, 42);
 	for (let i = 0; i < formattedData.length; ++i) {
 		formattedData[i] = removeElem(formattedData[i], 'lastUpdate');
@@ -75,7 +75,7 @@ test.skip('Format account posts from data', (t) => {
 	}]);
 });
 
-test.skip('Get new values', (t) => {
+test('Get new values', (t) => {
 	const prevValue = {
 		a: 1,
 		b: {
@@ -102,7 +102,7 @@ test.skip('Get new values', (t) => {
 	});
 });
 
-test.skip('Has new values', (t) => {
+test('Has new values', (t) => {
 	const prevValue = {
 		a: 1,
 		b: {
