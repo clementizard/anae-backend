@@ -18,7 +18,7 @@ class Variables {
 			height: casual.integer(600, 1080),
 		};
 	}
-	
+
 	get user() { return this._user; }
 	setUserId(userId) {
 		this._user.id = userId;

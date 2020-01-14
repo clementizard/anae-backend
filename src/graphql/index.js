@@ -1,6 +1,5 @@
-import { makeExecutableSchema } from 'apollo-server-express';
-import { augmentTypeDefs, augmentSchema } from 'neo4j-graphql-js';
-import { HasRoleDirective } from 'graphql-auth-directives';
+import { makeExecutableSchema, gql } from 'apollo-server-express';
+import { augmentTypeDefs, augmentSchema, makeAugmentedSchema } from 'neo4j-graphql-js';
 
 import { resolvers as categoryR, typeDefs as categoryT } from './Category';
 import { resolvers as collectionR, typeDefs as collectionT } from './Collection';
@@ -18,60 +17,134 @@ import { resolvers as tokenR, typeDefs as tokenT } from './Token';
 
 import context from './context';
 
-const jsSchema = makeExecutableSchema({
-	typeDefs: [
-		augmentTypeDefs(`
-			type Query { _empty: String	}
-			type Mutation {	_empty: String }
-			${categoryT}
-			${articleT}
-			${sectionT}
-			${collectionT}
-			${productT}
-			${orderT}
-			${addressT}
-			${cardT}
-			${deviceT}
-			${userT}
-			${connectionT}
-			${reviewT}
-		`),
-		tokenT,
-	],
-	resolvers: [
-		articleR,
-		sectionR,
-		categoryR,
-		collectionR,
-		productR,
-		orderR,
-		addressR,
-		cardR,
-		deviceR,
-		userR,
-		connectionR,
-		reviewR,
-		tokenR,
-	],
-});
+// const arrayTypeDefs = [
+// 	categoryT,
+// 	articleT,
+// 	sectionT,
+// 	collectionT,
+// 	productT,
+// 	orderT,
+// 	addressT,
+// 	cardT,
+// 	deviceT,
+// 	userT,
+// 	connectionT,
+// 	reviewT,
+// 	tokenT,
+// ];
 
-export const schema = augmentSchema(jsSchema, {
-	auth: {
-		hasRole: true,
-	},
-	query: {
-		// exclude: ['MyPayloadType'],
-	},
-	mutation: {
-		// exclude: ['Article'],
+const typeDefs = `
+		type Query { _empty: String	}
+		type Mutation {	_empty: String }
+		${categoryT}
+		${articleT}
+		${sectionT}
+		${collectionT}
+		${productT}
+		${orderT}
+		${addressT}
+		${cardT}
+		${deviceT}
+		${userT}
+		${connectionT}
+		${reviewT}
+		${tokenT}
+`;
+// const augmentedTypeDefs = augmentTypeDefs(typeDefs);
+// const allTypeDefs = [
+// 	augmentedTypeDefs,
+// 	tokenT,
+// ];
+const	resolvers = [
+	articleR,
+	sectionR,
+	categoryR,
+	collectionR,
+	productR,
+	orderR,
+	addressR,
+	cardR,
+	deviceR,
+	userR,
+	connectionR,
+	reviewR,
+	tokenR,
+];
+
+// const jsSchema = makeExecutableSchema({
+// 	typeDefs: allTypeDefs,
+// 	resolvers,
+// });
+
+// export const schema = augmentSchema(jsSchema, {
+// 	mutation: {
+// 		exclude: [
+// 			'Article',
+// 			'Section',
+// 			'User',
+// 			'Article',
+// 			'Article',
+// 		],
+// 	},
+// });
+
+export const schema = makeAugmentedSchema({
+	typeDefs,
+	resolvers,
+	allowUndefinedInResolve: true,
+	config: {
+		auth: {
+			hasRole: true,
+			isAuthenticated: true,
+		},
+		query: {
+			exclude: [
+				// "Token",
+			],
+		},
+		mutation: {
+			exclude: [
+				// "Token",
+			],
+		},
 	},
 });
-console.log(schema);
 
 export default {
 	schema,
 	context,
 };
+
+// const augmentedSchema = augmentSchema({
+// export const schema = augmentSchema({
+// 	typeDefs: allTypeDefs,
+// 	resolvers,
+// 	auth: {
+// 		hasRole: true,
+// 	},
+// });
+
+// export const schema = makeExecutableSchema({
+// 	schema: augmentedSchema,
+// 	resolverValidationOptions: {
+// 		requireResolversForResolveType: false,
+// 	},
+// 	schemaDirectives: {},
+// });
+// const executableSchema = makeExecutableSchema({
+// 	typeDefs: allTypeDefs,
+// 	resolvers,
+// 	resolverValidationOptions: {
+// 		requireResolversForResolveType: false,
+// 	},
+// 	schemaDirectives: {},
+// });
+//
+// export const schema = augmentSchema(executableSchema, {
+// 	auth: {
+// 		hasRole: true,
+// 	},
+// });
 
 // const schema = makeAugmentedSchema({
 // 	typeDefs: [

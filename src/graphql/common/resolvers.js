@@ -1,5 +1,5 @@
-import { GraphQLDate } from 'graphql-iso-date';
+// import { GraphQLDate } from 'graphql-iso-date';
 
 export default {
-	DATE: GraphQLDate,
+	// DATE: GraphQLDate,
 };

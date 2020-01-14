@@ -24,13 +24,11 @@ export default {
 		AllArticles: (obj, params, ctx, resInf) => neo4jgraphql(obj, params, ctx, resInf),
 	},
 	Mutation: {
-		CreateArticle: (obj, params, ctx, resInf) => {
-			console.log('called CreateArticle');
+		UpdateArticle: (obj, params, ctx, resInf) => {
+			if (!ctx.roles.includes('ADMIN')) return null;
 			return neo4jgraphql(obj, params, ctx, resInf);
 		},
 		CreateArticleWithSections: async (obj, params, ctx, resInf) => {
-			console.log("CONTEXT: ", ctx);
-			return null;
 			try {
 				const sections = params.sections;
 				let createSectionsQuery = '';

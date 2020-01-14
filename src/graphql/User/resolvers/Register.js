@@ -18,7 +18,6 @@ export default async (obj, params, ctx, resInf) => {
 		lastname,
 	} = params;
 	const { userId, deviceId } = ctx;
-	console.log(userId, deviceId)
 	if (!userId || !deviceId) return null;
 
 	const user = await session.run(findUserByEmailQuery, { email });

@@ -23,7 +23,6 @@ export default async (obj, params, ctx, resInf) => {
 
 	// Get device by ID or create it with params
 	const deviceQ = deviceId ? `id: "${deviceId}"` : deviceInfosQuery;
-
 	// Best case scenario: both device and connection is found, and an unregistered user is found.
 	const userDeviceConnectionQ = `
 		MATCH (d:Device {${deviceQ}})<-[:USED]-(u:User)-[:CONNECTED_WITH]->(:Connection {ipv4: "${ip}"})

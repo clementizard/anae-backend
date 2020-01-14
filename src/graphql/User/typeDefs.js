@@ -12,7 +12,7 @@ export default `
 		darkMode: Boolean
 		connections: [ConnectedWith]
 		devices: [Used]
-		roles: [Roles]
+		roles: [Role]
 		cart: [AddedToCart]
 		favorites: [AddedToFavorites]
 		orders: [Commanded]
@@ -20,7 +20,7 @@ export default `
 		reviews: [Wrote]
 	}
 	
-	enum Roles {
+	enum Role {
 		ADMIN
 		CLIENT
 		PRODUCT_MANAGER
@@ -51,10 +51,10 @@ export default `
 			email: String!,
 			password: String!,
 			firstname: String,
-			lastname: String): Token
+			lastname: String): Token @isAuthenticated
 		Login(
 			email: String!,
-			password: String!): Token
+			password: String!): Token @isAuthenticated
 	}
 	
 `;

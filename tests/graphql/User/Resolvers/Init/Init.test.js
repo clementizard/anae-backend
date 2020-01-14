@@ -32,8 +32,8 @@ test('Init', async (t) => {
 		deviceId: userByDeviceId,
 	} = await mutateInit(mutate, { deviceId: user1Device1Id });
 	if (!userIdByDevice) t.fail('Check if user has been created');
-	t.is(user1Id, userIdByDevice);
-	t.is(user1Device1Id, userByDeviceId);
+	t.is(user1Id, userIdByDevice, 'Check if user has been created');
+	t.is(user1Device1Id, userByDeviceId, 'Check if user has been created');
 
 	Variables.changeIp();
 	const secondIp = `${Variables.connection.ipv4}`;
@@ -44,8 +44,8 @@ test('Init', async (t) => {
 		deviceId: userByDeviceIdChangedIp,
 	} = await mutateInit(mutate, { deviceId: user1Device1Id });
 	if (!userIdByDeviceChangedIp) t.fail('Link another IP to user');
-	t.is(user1Id, userIdByDeviceChangedIp);
-	t.is(user1Device1Id, userByDeviceIdChangedIp);
+	t.is(user1Id, userIdByDeviceChangedIp, 'Link another IP to user');
+	t.is(user1Device1Id, userByDeviceIdChangedIp, 'Link another IP to user');
 
 	Variables.setIp(firstIp);
 	Variables.changeDevice();
@@ -53,7 +53,7 @@ test('Init', async (t) => {
 	// Link another device to user
 	const { userId: userIdByConnection, deviceId: user1device2Id } = await mutateInit(mutate, { ...Variables.device });
 	if (!userIdByConnection) t.fail('Link another device to user');
-	t.is(user1Id, userIdByConnection);
+	t.is(user1Id, userIdByConnection, 'Link another device to user');
 
 	Variables.changeDevice();
 	Variables.changeIp();
@@ -69,7 +69,7 @@ test('Init', async (t) => {
 		deviceId: user2Device1IdByConnection,
 	} = await mutateInit(mutate, { ...Variables.device });
 	if (!user2Device1IdByConnection) t.fail('Check user existence after cleaning his cache');
-	t.is.skip(user2Device1Id, user2Device1IdByConnection);
+	t.is.skip(user2Device1Id, user2Device1IdByConnection, 'Check user existence after cleaning his cache');
 
 	Variables.setIp(firstIp);
 
@@ -78,7 +78,7 @@ test('Init', async (t) => {
 		userId: user2IdByExistingConnection,
 	} = await mutateInit(mutate, { deviceId: user2Device1Id });
 	if (!user2IdByConnection) t.fail('Check user link to alreading existing ip');
-	t.is(user2Id, user2IdByExistingConnection);
+	t.is(user2Id, user2IdByExistingConnection, 'Check user link to alreading existing ip');
 
 	await cleanTest({
 		id: [

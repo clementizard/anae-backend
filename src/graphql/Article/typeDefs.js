@@ -28,12 +28,6 @@ export default `
 		AllArticles: [Article]
 	}
 	extend type Mutation {
-		CreateArticle(
-			id: ID
-			title: String!
-			image: String!
-			description: String
-		): Article
 		CreateArticleWithSections(
 			title: String!
 			image: String!

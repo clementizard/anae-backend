@@ -18,9 +18,10 @@ test('Register', async (t) => {
 	// Init Apollo Server
 	const server = new ApolloServer({
 		schema,
-		context: () => ({
+		context: ({ req }) => ({
 			userId: Variables.user.id,
 			deviceId: Variables.device.id,
+			req,
 		}),
 	});
 	const { mutate } = createTestClient(server);
