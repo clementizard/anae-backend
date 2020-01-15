@@ -20,13 +20,10 @@ class Variables {
 	}
 
 	get user() { return this._user; }
-	setUserId(userId) {
-		this._user.id = userId;
-	}
+	setUserId(userId) { this._user.id = userId; }
+	setUserToken(token) { this._user.token = token; }
 	get device() { return this._device; }
-	setDeviceId(deviceId) {
-		this._device.id = deviceId;
-	}
+	setDeviceId(deviceId) { this._device.id = deviceId; }
 }
 
 export default new Variables();

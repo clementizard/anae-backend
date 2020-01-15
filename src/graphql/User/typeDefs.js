@@ -5,21 +5,21 @@ export default `
 		password: String
 		firstname: String
 		lastname: String
-		createdAt: DateTime
 		lang: String
 		timezone: String
 		leftHanded: Boolean
 		darkMode: Boolean
+		createdAt: DateTime @hasRole(roles:[ADMIN])
 		connections: [ConnectedWith]
 		devices: [Used]
 		roles: [Role]
-		cart: [AddedToCart]
-		favorites: [AddedToFavorites]
-		orders: [Commanded]
-		payments: [PaidWith]
-		reviews: [Wrote]
+		cart: [AddedToCart] @hasRole(roles:[ADMIN, CLIENT])
+		favorites: [AddedToFavorites] @hasRole(roles:[ADMIN, CLIENT])
+		orders: [Commanded] @hasRole(roles:[ADMIN, CLIENT])
+		payments: [PaidWith] @hasRole(roles:[ADMIN, CLIENT])
+		reviews: [Wrote] @hasRole(roles:[ADMIN, MODERATOR, CLIENT])
 	}
-	
+
 	enum Role {
 		ADMIN
 		CLIENT
@@ -27,7 +27,7 @@ export default `
 		MODERATOR
 		REDACTOR
 	}
-	
+
 	type Commanded @relation(name: "COMMANDED", direction: "OUT") {
 		date: DateTime
 		cancelled: Boolean
@@ -55,6 +55,11 @@ export default `
 		Login(
 			email: String!,
 			password: String!): Token @isAuthenticated
+		ChangePassword(
+			email: String!
+			newPassword: String!
+			oldPassword: String!
+		): Success @hasRole(roles:[ADMIN, PRODUCT_MANAGER, MODERATOR, REDACTOR, CLIENT])
 	}
 	
 `;

@@ -73,7 +73,7 @@ export default async (obj, params, ctx, resInf) => {
 		// Until then, create a new device.
 		console.log('Given device does not exist, ignoring');
 	}
-	// Check for existing connection
+	// Check for existing connection with empty user
 	const userConnectionQ = `
 		MATCH (u:User)-[:CONNECTED_WITH]->(c:Connection {ipv4: "${ip}"})
 		WHERE u.email IS NULL
@@ -93,6 +93,22 @@ export default async (obj, params, ctx, resInf) => {
 			const { newDeviceId } = getFormattedResult(deviceResult);
 			return generateToken(userId, newDeviceId);
 		}
+	}
+	// Check for connection only
+	const connectionResult = await session.run(`MATCH (c:Connection {ipv4: "${ip}"}) RETURN c.id as connectionId`);
+	if (hasRecords(connectionResult)) {
+		// connection found
+		const { connectionId } = getFormattedResult(connectionResult);
+		const userCreateWithConnection = `
+			MATCH (c:Connection {id: "${connectionId}"})
+			WITH c
+			CREATE (d:Device {${deviceInfosQuery}, id: apoc.create.uuid() })<-[:USED {lastDate: "${now}"}]-(u:User {createdAt: "${now}", id: apoc.create.uuid() })-[:CONNECTED_WITH {lastDate: "${now}"}]->(c)
+			RETURN d.id as newDeviceId, u.id as userId
+		`;
+		const userCreateResult = await session.run(userCreateWithConnection);
+		if (!hasRecords(userCreateResult)) return genericError;
+		const { userId, newDeviceId } = getFormattedResult(userCreateResult);
+		return generateToken(userId, newDeviceId);
 	}
 	// Connection and Device are new, creating with a new user.
 	const userCreateQ = `

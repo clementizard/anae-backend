@@ -18,10 +18,10 @@ test('Register', async (t) => {
 	// Init Apollo Server
 	const server = new ApolloServer({
 		schema,
-		context: ({ req }) => ({
+		context: () => ({
 			userId: Variables.user.id,
 			deviceId: Variables.device.id,
-			req,
+			headers: { authorization: Variables.user.token },
 		}),
 	});
 	const { mutate } = createTestClient(server);
@@ -34,20 +34,23 @@ test('Register', async (t) => {
 	t.deepEqual(emptyRes, {}, 'Cannot register without Init');
 
 	// Init a new user
-	const { userId, deviceId } = await mutateInit(mutate, { ...Variables.device });
+	const { userId, deviceId, token: initToken } = await mutateInit(mutate, { ...Variables.device });
 	if (!userId || !deviceId) t.fail('Init a new User');
 
 	Variables.setUserId(userId);
 	Variables.setDeviceId(deviceId);
+	Variables.setUserToken(initToken);
 
 	// Register this user
-	const { roles } = await mutateRegister(mutate, {
+	const { roles, token: registerToken } = await mutateRegister(mutate, {
 		email: Variables.user.email,
 		password: Variables.user.password,
 		firstname: Variables.user.firstname,
 		lastname: Variables.user.lastname,
 	});
 	t.deepEqual(roles, ['CLIENT'], 'Register this user');
+
+	Variables.setUserToken(registerToken);
 
 	// Cannot register twice
 	const result = await mutateRegister(mutate, {
@@ -61,7 +64,7 @@ test('Register', async (t) => {
 			userId,
 			deviceId,
 		],
-		ipv4: [ InitVariables.connection.ipv4 ],
+		ipv4: [InitVariables.connection.ipv4],
 	});
 	t.pass();
 });
