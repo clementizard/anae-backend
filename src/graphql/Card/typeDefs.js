@@ -5,6 +5,7 @@ export default `
 		number: String
 		expirationDate: Date
 		ccv: Int
+		disabled: Boolean
 		billingAddress: Address @relation(name: "BILLING_TO", direction: "OUT")
 		user: PaidWith
 	}

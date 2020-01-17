@@ -7,7 +7,7 @@ export default `
 		score: Int
 		article: Article @relation(name: "ABOUT", direction: "OUT")
 		product: Product @relation(name: "ABOUT", direction: "OUT")
-		author: Wrote!
+		author: Wrote
 		edited: [Edited]
 		deleted: Deleted
 	}

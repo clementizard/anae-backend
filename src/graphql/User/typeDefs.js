@@ -1,18 +1,20 @@
+// Todo:  Add a "disabled" field.
+
 export default `
 	type User {
 		id: ID!
 		email: String
-		password: String
+		password: String @hasRole(roles:[ADMIN])
 		firstname: String
 		lastname: String
 		lang: String
 		timezone: String
 		leftHanded: Boolean
 		darkMode: Boolean
+		roles: [Role]
 		createdAt: DateTime @hasRole(roles:[ADMIN])
 		connections: [ConnectedWith]
 		devices: [Used]
-		roles: [Role]
 		cart: [AddedToCart] @hasRole(roles:[ADMIN, CLIENT])
 		favorites: [AddedToFavorites] @hasRole(roles:[ADMIN, CLIENT])
 		orders: [Commanded] @hasRole(roles:[ADMIN, CLIENT])
@@ -29,6 +31,8 @@ export default `
 	}
 
 	type Commanded @relation(name: "COMMANDED", direction: "OUT") {
+		from: User!
+		to: Order!
 		date: DateTime
 		cancelled: Boolean
 		dateCancelled: DateTime
@@ -36,6 +40,8 @@ export default `
 		dateRefunded: DateTime
 	}
 	type PaidWith @relation(name: "PAID_WIDTH", direction: "OUT") {
+		from: User!
+		to: Card!
 		dateRegistered: DateTime
 	}
 	

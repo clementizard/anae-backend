@@ -1,6 +1,5 @@
 import typeDefs from './typeDefs';
-
-const resolvers = {};
+import resolvers from './resolvers';
 
 export {
 	typeDefs,

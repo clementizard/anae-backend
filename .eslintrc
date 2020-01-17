@@ -7,6 +7,7 @@
   },
   "parser": "babel-eslint",
   "rules": {
+    "import/prefer-default-export": "warn",
     "no-await-in-loop": "warn",
     "lines-between-class-members": "off",
     "comma-dangle": [

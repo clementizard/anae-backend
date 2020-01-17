@@ -12,13 +12,13 @@ export default `
 		sizes: [Int]
 		categories: [Category] @relation(name: "IN_CATEGORY", direction: "OUT")
 		collection: [Collection] @relation(name: "IN_COLLECTION", direction: "OUT")
-		orders: [InOrder]
+		orders: [InOrder] @hasRole(roles:[ADMIN, PRODUCT_MANAGER])
 		variants: [String]
 		reviews: [Review] @relation(name: "ABOUT", direction: "IN")
-		inCart: [AddedToCart]
-		inFavorites: [AddedToFavorites]
+		inCart: [AddedToCart] @hasRole(roles:[ADMIN, PRODUCT_MANAGER])
+		inFavorites: [AddedToFavorites] @hasRole(roles:[ADMIN, PRODUCT_MANAGER])
 	}
-	
+
 	type AddedToCart @relation(name: "ADDED_TO_CART") {
 		from: User!
 		to: Product!
@@ -28,10 +28,5 @@ export default `
 		from: User!
 		to: Product!
 		date: DateTime
-	}
-	
-	extend type Query {
-		ProductById(id: ID!): Product
-		AllProducts: [Product]
 	}
 `;
