@@ -47,19 +47,35 @@ export default `
 	
 	extend type Mutation {
 		Init(
-			deviceId: String,
-			width: Int,
-			height: Int,
-			type: String,
-			browser: String,
-			name: String): Token
+			deviceId: String
+			type: String
+			brand: String
+			model: String
+			width: Int
+			height: Int
+	
+			clientType: String
+			clientName: String
+			clientVersion: String
+			clientEngine: String
+			clientEngineVersion: String
+	
+			osName: String
+			osVersion: String
+			osPlatform: String
+	
+			botName: String
+			botCategory: String
+			botUrl: String
+			botProducerName: String
+			botProducerUrl: String): Token
 		Register(
-			email: String!,
-			password: String!,
-			firstname: String,
+			email: String!
+			password: String!
+			firstname: String
 			lastname: String): Token @isAuthenticated
 		Login(
-			email: String!,
+			email: String!
 			password: String!): Token @isAuthenticated
 		ChangePassword(
 			email: String!

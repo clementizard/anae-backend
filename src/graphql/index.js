@@ -63,14 +63,12 @@ export const schema = makeAugmentedSchema({
 			exclude: [
 				'Token',
 				'Success',
-				'SectionArticle',
 			],
 		},
 		mutation: {
 			exclude: [
 				'Token',
 				'Success',
-				'SectionArticle',
 			],
 		},
 	},
