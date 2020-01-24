@@ -11,6 +11,7 @@ export default `
 		timezone: String
 		leftHanded: Boolean
 		darkMode: Boolean
+		newsletter: Boolean
 		roles: [Role]
 		createdAt: DateTime @hasRole(roles:[ADMIN])
 		connections: [ConnectedWith]
@@ -73,7 +74,8 @@ export default `
 			email: String!
 			password: String!
 			firstname: String
-			lastname: String): Token @isAuthenticated
+			lastname: String
+			newsletter: Boolean): Token @isAuthenticated
 		Login(
 			email: String!
 			password: String!): Token @isAuthenticated

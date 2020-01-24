@@ -13,19 +13,45 @@ export const mutateInit = async (mutate, variables) => {
 		mutation: gql`
         mutation Init(
             $deviceId: String
+            $type: String
+            $brand: String
+            $model: String
             $width: Int
             $height: Int
-            $type: String
-            $browser: String
-            $name: String
+            $clientType: String
+            $clientName: String
+            $clientVersion: String
+            $clientEngine: String
+            $clientEngineVersion: String
+            $osName: String
+            $osVersion: String
+            $osPlatform: String
+            $botName: String
+            $botCategory: String
+            $botUrl: String
+            $botProducerName: String
+            $botProducerUrl: String
         ) {
             Init(
                 deviceId: $deviceId
+                type: $type
+                brand: $brand
+                model: $model
                 width: $width
                 height: $height
-                type: $type
-                browser: $browser
-                name: $name
+                clientType: $clientType
+                clientName: $clientName
+                clientVersion: $clientVersion
+                clientEngine: $clientEngine
+                clientEngineVersion: $clientEngineVersion
+                osName: $osName
+                osVersion: $osVersion
+                osPlatform: $osPlatform
+                botName: $botName
+                botCategory: $botCategory
+                botUrl: $botUrl
+                botProducerName: $botProducerName
+                botProducerUrl: $botProducerUrl
             ) {
                 success
                 message

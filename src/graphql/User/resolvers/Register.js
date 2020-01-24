@@ -16,6 +16,7 @@ export default async (obj, params, ctx, resInf) => {
 		password,
 		firstname,
 		lastname,
+		newsletter,
 	} = params;
 	const { userId, deviceId } = ctx;
 	if (!userId || !deviceId) return null;
@@ -29,6 +30,7 @@ export default async (obj, params, ctx, resInf) => {
 	let addedFields = '';
 	if (firstname) addedFields += `, user.firstname = "${firstname}"`;
 	if (lastname) addedFields += `, user.lastname = "${lastname}"`;
+	if (newsletter) addedFields += `, user.newsletter = "${newsletter}"`;
 	const setQuery = `SET user.email = "${email}", user.password = "${hashedPassword}", user.roles = ["CLIENT"]${addedFields}`;
 
 	const finalQuery = `
