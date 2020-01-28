@@ -1,6 +1,7 @@
 import Init from './Init';
 import Register from './Register';
 import Login from './Login';
+import ResetRequest from './ResetRequest';
 import ChangePassword from './ChangePassword';
 
 import {
@@ -29,6 +30,7 @@ export default {
 		Register,
 		Login,
 		ChangePassword,
+		ResetRequest,
 		/* Generated */
 		// User Core
 		CreateUser: authFilter([ADMIN]),

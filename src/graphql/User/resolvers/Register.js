@@ -1,8 +1,8 @@
 import argon2 from 'argon2';
 import requestIp from 'request-ip';
 
-import Variables from '../../../../tests/graphql/User/Resolvers/Init/variables';
-import { session } from '../../../neo4j/config';
+import Variables from 'Tests/graphql/User/Resolvers/Init/variables';
+import { session } from 'Neo4j';
 import {
 	findUserByEmailQuery,
 	generateToken,

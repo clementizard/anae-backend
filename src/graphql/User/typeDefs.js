@@ -79,6 +79,8 @@ export default `
 		Login(
 			email: String!
 			password: String!): Token @isAuthenticated
+		ResetRequest(
+			email: String!): Success @isAuthenticated
 		ChangePassword(
 			email: String!
 			newPassword: String!

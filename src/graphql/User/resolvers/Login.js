@@ -1,6 +1,6 @@
 import argon2 from 'argon2';
 
-import { session } from '../../../neo4j/config';
+import { session } from 'Neo4j';
 import { hasRecords, getFormattedResult, generateToken } from './Tools';
 
 const credentialError = { success: false, message: 'Incorrect credentials' };

@@ -2,7 +2,15 @@
   "presets": ["@babel/preset-env"],
   "plugins": [
     "@babel/plugin-proposal-object-rest-spread",
-    "@babel/plugin-transform-runtime"
+    "@babel/plugin-transform-runtime",
+    ["module-resolver", {
+      "alias": {
+        "GraphQl": "./src/graphql",
+        "Neo4j": "./src/neo4j/config.js",
+        "Mjml": "./src/mjml",
+        "Tests": "./tests"
+      }
+    }]
   ],
   "env": {
     "test": {

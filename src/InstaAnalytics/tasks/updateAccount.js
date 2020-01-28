@@ -1,4 +1,4 @@
-import Mutation from '../../graphql/InstaAccount/resolvers/mutation';
+import Mutation from 'GraphQl/InstaAccount/resolvers/mutation';
 
 const startInterval = () => {
 	setInterval(async () => {

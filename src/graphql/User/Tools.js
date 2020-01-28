@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { AuthenticationError } from 'apollo-server-express';
 
-import { session } from '../../neo4j/config';
+import { session } from 'Neo4j';
 import {
 	getFormattedResult,
 	hasRecords,

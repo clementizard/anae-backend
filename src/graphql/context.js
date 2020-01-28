@@ -1,4 +1,4 @@
-import Neo4jDriver from '../neo4j/config';
+import Neo4jDriver from 'Neo4j';
 import { getUserInfosByToken } from './User/Tools';
 
 export default async ({ req }) => {

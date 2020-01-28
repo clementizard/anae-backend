@@ -1,4 +1,4 @@
-import { session } from '../../../neo4j/config';
+import { session } from 'Neo4j';
 
 const articleAllowedParams = [
 	'title',
