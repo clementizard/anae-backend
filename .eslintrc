@@ -19,7 +19,7 @@
       { "allowForLoopAfterthoughts": true }
     ],
     "no-nested-ternary": "off",
-    "indent": ["error", "tab"],
+    "indent": ["error", "tab", { "SwitchCase": 1 }],
     "no-unused-vars": ["warn"],
     "no-tabs": ["off"],
     "no-return-await": ["off"],

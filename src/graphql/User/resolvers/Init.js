@@ -1,6 +1,7 @@
 import requestIp from 'request-ip';
 
 import { session } from 'Neo4j';
+import Variables from 'Tests/graphql/User/Resolvers/Init/variables';
 import {
 	getFormattedResult,
 	getDeviceQueryByInfos,
@@ -8,7 +9,6 @@ import {
 	generateToken,
 	genericError,
 } from './Tools';
-import Variables from 'Tests/graphql/User/Resolvers/Init/variables';
 
 // Called during first load
 export default async (obj, params, ctx, resInf) => {

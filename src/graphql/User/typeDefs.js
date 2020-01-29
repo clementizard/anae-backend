@@ -12,6 +12,7 @@ export default `
 		leftHanded: Boolean
 		darkMode: Boolean
 		newsletter: Boolean
+		resetCode: String @hasRole(roles:[ADMIN])
 		roles: [Role]
 		createdAt: DateTime @hasRole(roles:[ADMIN])
 		connections: [ConnectedWith]
@@ -79,8 +80,14 @@ export default `
 		Login(
 			email: String!
 			password: String!): Token @isAuthenticated
-		ResetRequest(
-			email: String!): Success @isAuthenticated
+		ResetRequest(email: String!): Success @isAuthenticated
+		ResetResponse(
+			resetCode: String!
+			password: String!): Token @isAuthenticated
+		ChangeEmail(
+			email: String!
+			password: String!
+		): Success @hasRole(roles:[ADMIN, PRODUCT_MANAGER, MODERATOR, REDACTOR, CLIENT])
 		ChangePassword(
 			email: String!
 			newPassword: String!
