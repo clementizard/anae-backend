@@ -42,7 +42,7 @@
   "dependencies": {
     "@babel/runtime": "7.8.3",
     "@sendgrid/mail": "^6.5.1",
-    "apollo-server-express": "2.9.16",
+    "apollo-server-express": "2.14.2",
     "argon2": "0.25.1",
     "chalk": "3.0.0",
     "cors": "^2.8.5",
